@@ -317,28 +317,51 @@ void read_file(const char *filename)
     printf("\nLeitura do arquivo %s concluída.\n\n", filename);
 }
 
-void write_file() {
-    if (!cartao_montado) {
-        printf("[AVISO] Tentativa de gravação com cartão desmontado\n");
-        return;
-    }
-
-    printf("[DEBUG] Antes de f_open()\n");
-
+void write_file()
+{
+    char filename[] = "dados_imu.csv";
     FIL file;
-    FRESULT res = f_open(&file, "mpu6050_data.txt", FA_WRITE | FA_CREATE_ALWAYS);
+    FRESULT res;
+    UINT bytes_written;
 
-    printf("[DEBUG] Depois de f_open() com res = %d\n", res);
-
-    if (res != FR_OK) {
-        printf("[ERRO] f_open falhou: %d\n", res);
+    // Abre/cria o arquivo
+    res = f_open(&file, filename, FA_WRITE | FA_CREATE_ALWAYS);
+    if (res != FR_OK)
+    {
+        printf("[ERRO] Não foi possível abrir o arquivo para escrita: %d\n", res);
         return;
     }
 
-    UINT written;
-    res = f_write(&file, "teste\n", 6, &written);
-    printf("[DEBUG] f_write retornou: %d, bytes escritos: %d\n", res, written);
+    // Escreve o cabeçalho
+    const char *cabecalho = "Amostra,Acc_X,Acc_Y,Acc_Z,Gyro_X,Gyro_Y,Gyro_Z,Temp\n";
+    res = f_write(&file, cabecalho, strlen(cabecalho), &bytes_written);
+    if (res != FR_OK || bytes_written != strlen(cabecalho))
+    {
+        printf("[ERRO] Falha ao escrever o cabeçalho CSV\n");
+        f_close(&file);
+        return;
+    }
+
+    // Escreve os dados coletados
+    char linha[128];
+    for (int i = 0; i < quantidade_coletada; i++)
+    {
+        imu_data_t *dado = &data_buffer[i];
+        snprintf(linha, sizeof(linha),
+                 "%d,%d,%d,%d,%d,%d,%d,%d\n",
+                 dado->numero_amostra,
+                 dado->aceleracao[0], dado->aceleracao[1], dado->aceleracao[2],
+                 dado->gyro[0], dado->gyro[1], dado->gyro[2],
+                 dado->temp);
+
+        res = f_write(&file, linha, strlen(linha), &bytes_written);
+        if (res != FR_OK || bytes_written != strlen(linha))
+        {
+            printf("[ERRO] Falha ao escrever linha %d do CSV\n", i);
+            break;
+        }
+    }
 
     f_close(&file);
-    printf("[DEBUG] f_close() finalizado\n");
+    printf("[INFO] Arquivo CSV salvo com sucesso: %s\n", filename);
 }

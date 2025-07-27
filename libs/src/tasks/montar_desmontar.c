@@ -16,12 +16,12 @@ void vTaskMontarDesmontarSD(void *params) {
                 estado_sistema = MONTANDO_SD; // Atualiza o estado do sistema para montando
                 printf("Montando o cartão SD...\n");
                 run_mount();
-                // chamaa a função de montagem do cartão SD
+                vTaskDelay(pdMS_TO_TICKS(2000)); // Delay para simular o tempo de montagem
             } else {
                 printf("Desmontando o cartão SD...\n");
                 run_unmount();
+                vTaskDelay(pdMS_TO_TICKS(2000)); // Delay para simular o tempo de desmontagem
                 estado_sistema = DESMONTANDO_SD; // Atualiza o estado do sistema para desmontando
-                // chama a função de desmontagem do cartão SD
             }
             estado_sistema = PRONTO; // Atualiza o estado do sistema para pronto após montar/desmontar
             xSemaphoreGive(xMutexCartaoSD); // Libera o semáforo após montar

@@ -11,7 +11,7 @@
 
 void vTaskCapturarDados(void *params){
 
-    
+     
     
 
     i2c_init(I2C_PORT_MPU6050, 400 * 1000); // Inicializa o I2C a 400kHz
