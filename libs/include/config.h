@@ -33,10 +33,11 @@ typedef enum
     CAPTURANDO, // Sistema capturando dados
     ERRO,       // Sistema em estado de erro
     MONTANDO_SD, // Sistema montando o cartão SD
+    DESMONTANDO_SD, // Sistema desmontando o cartão SD
     GRAVANDO_SD, // Sistema gravando dados no cartão SD
 } ESTADO_SISTEMA;
 
 extern ESTADO_SISTEMA estado_sistema; // Variável global para armazenar o estado do sistema
-extern volatile bool parar_captura;
+extern volatile bool parar_captura; // Variável global para controlar a captura de dados
 extern int quantidade_coletada; // Variável global para controlar a quantidade de dados coletados
 #endif // CONFIG_H

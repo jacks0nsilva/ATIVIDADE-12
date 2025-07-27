@@ -33,6 +33,9 @@ add_executable(${PROJECT_NAME}
         ATIVIDADE-12.c # Código principal em C
         libs/src/tasks/capturar_dados.c # Implementação da tarefa de captura de dados
         libs/src/mpu6050.c # Implementação do driver MPU6050
+        libs/src/tasks/montar_desmontar.c # Implementação da tarefa de montar/desmontar o cartão SD
+        libs/src/tasks/gravar_dados.c # Implementação da tarefa de gravar dados no cartão SD
+        libs/src/tasks/capturar_dados.c # Header da tarefa de captura de dados
         )
 
 target_include_directories(${PROJECT_NAME} PRIVATE ${CMAKE_SOURCE_DIR})  # Adiciona o diretório raiz como include privado apenas para o target atual

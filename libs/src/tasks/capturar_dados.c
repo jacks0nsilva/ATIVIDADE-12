@@ -47,8 +47,7 @@ void vTaskCapturarDados(void *params){
                 if(parar_captura) break; // Verifica se a captura deve ser interrompida
         }
 
-        // Aqui será liberado o semáforo para que outra tarefa possa gravar os dados no cartão SD ou processá-los
-
+        /*
         printf("Amostras capturadas:\n");
         for (int i = 0; i < quantidade_coletada; i++)
         {
@@ -57,8 +56,8 @@ void vTaskCapturarDados(void *params){
                    data_buffer[i].aceleracao[0], data_buffer[i].aceleracao[1], data_buffer[i].aceleracao[2],
                    data_buffer[i].gyro[0], data_buffer[i].gyro[1], data_buffer[i].gyro[2],
                    data_buffer[i].temp);
-        }
-        estado_sistema = PRONTO; // Atualiza o estado do sistema para pronto
+        }*/
+        xTaskNotifyGive(xHandleGravar); // Notifica a tarefa de gravação de dados
         parar_captura = false; // Reseta a variável de controle de captura
         vTaskDelay(pdMS_TO_TICKS(2000)); // Delay for 2000 ms before the next capture
     }
