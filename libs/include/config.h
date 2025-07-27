@@ -37,6 +37,7 @@ typedef enum
     GRAVANDO_SD, // Sistema gravando dados no cartão SD
 } ESTADO_SISTEMA;
 
+extern imu_data_t data_buffer[QUANTIDADE_AMOSTRAS]; // Buffer para armazenar os dados capturados
 extern ESTADO_SISTEMA estado_sistema; // Variável global para armazenar o estado do sistema
 extern volatile bool parar_captura; // Variável global para controlar a captura de dados
 extern int quantidade_coletada; // Variável global para controlar a quantidade de dados coletados

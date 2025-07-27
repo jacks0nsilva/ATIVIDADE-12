@@ -12,10 +12,22 @@ void gpio_irq_handler(uint gpio, uint32_t events); // Declaração da função d
 ESTADO_SISTEMA estado_sistema = PRONTO; // Inicializa o estado do sistema
 int quantidade_coletada = 0; // Variável global para controlar a quantidade de dados coletados
 
+
+imu_data_t data_buffer[QUANTIDADE_AMOSTRAS];
 TaskHandle_t xHandleCaptura = NULL; // Handle para a tarefa de captura de dados
 TaskHandle_t xHandleGravar = NULL; // Handle para a tarefa de gravar dados no cartão SD
 TaskHandle_t xHandleMontarDesmontar = NULL; // Handle para a tarefa de montar/desmontar o cartão SD 
 SemaphoreHandle_t xMutexCartaoSD; // Semáforo para acesso ao cartão SD
+
+void vEstadoAtual(){
+    
+    while (true)
+    {
+        printf("Estado atual do sistema: %d\n", estado_sistema);
+        vTaskDelay(pdMS_TO_TICKS(1000)); // Delay de 1 segundo para evitar sobrecarga de impressão
+    }
+    
+}
 
 int main()
 {
@@ -36,9 +48,10 @@ int main()
     xMutexCartaoSD = xSemaphoreCreateMutex(); // Criação do semáforo para acesso ao cartão SD
 
     // Criação das tarefas 
+    xTaskCreate(vEstadoAtual, "Estado Atual", configMINIMAL_STACK_SIZE, NULL, 1, NULL); // Tarefa para exibir o estado atual do sistema
     xTaskCreate(vTaskCapturarDados, "Capturar Dados", configMINIMAL_STACK_SIZE, NULL, 1, &xHandleCaptura);
     xTaskCreate(vTaskMontarDesmontarSD, "Montar/Desmontar SD", configMINIMAL_STACK_SIZE, NULL, 1, &xHandleMontarDesmontar);
-    xTaskCreate(vTaskGravarDados, "Gravar Dados", configMINIMAL_STACK_SIZE, NULL, 1, &xHandleGravar);
+    xTaskCreate(vTaskGravarDados, "Gravar Dados", 4096, NULL, 1, &xHandleGravar);
     // Início do scheduler
     vTaskStartScheduler();
     panic_unsupported(); 
@@ -47,7 +60,7 @@ int main()
 void gpio_irq_handler(uint gpio, uint32_t events) {
     uint32_t current_time = to_us_since_boot(get_absolute_time());
 
-    if(current_time - last_time > 200000) { 
+    if(current_time - last_time > 500000) { 
         last_time = current_time; // Atualiza o último tempo registrado
         BaseType_t xHigherPriorityTaskWoken = pdFALSE;
 

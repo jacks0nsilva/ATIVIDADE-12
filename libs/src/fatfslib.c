@@ -316,3 +316,29 @@ void read_file(const char *filename)
     f_close(&file);
     printf("\nLeitura do arquivo %s concluída.\n\n", filename);
 }
+
+void write_file() {
+    if (!cartao_montado) {
+        printf("[AVISO] Tentativa de gravação com cartão desmontado\n");
+        return;
+    }
+
+    printf("[DEBUG] Antes de f_open()\n");
+
+    FIL file;
+    FRESULT res = f_open(&file, "mpu6050_data.txt", FA_WRITE | FA_CREATE_ALWAYS);
+
+    printf("[DEBUG] Depois de f_open() com res = %d\n", res);
+
+    if (res != FR_OK) {
+        printf("[ERRO] f_open falhou: %d\n", res);
+        return;
+    }
+
+    UINT written;
+    res = f_write(&file, "teste\n", 6, &written);
+    printf("[DEBUG] f_write retornou: %d, bytes escritos: %d\n", res, written);
+
+    f_close(&file);
+    printf("[DEBUG] f_close() finalizado\n");
+}

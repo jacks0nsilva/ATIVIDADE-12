@@ -19,6 +19,7 @@ FATFS *sd_get_fs_by_name(const char *name);
  void run_unmount();
  void run_ls();
  void run_cat();
+ void write_file();
 /*
 // Função para capturar dados do ADC e salvar no arquivo *.txt
 void capture_adc_data_and_save()
