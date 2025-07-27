@@ -3,6 +3,7 @@
 #include "FreeRTOS.h"
 #include "task.h"
 #include <stdio.h>
+#include "fatfslib.h"
 
 void vTaskMontarDesmontarSD(void *params) {
     while (true) {
@@ -14,12 +15,12 @@ void vTaskMontarDesmontarSD(void *params) {
             if(!cartao_montado) {
                 estado_sistema = MONTANDO_SD; // Atualiza o estado do sistema para montando
                 printf("Montando o cartão SD...\n");
-                cartao_montado = true; // Atualiza o estado do cartão SD para montado
+                run_mount();
                 // chamaa a função de montagem do cartão SD
             } else {
                 estado_sistema = DESMONTANDO_SD; // Atualiza o estado do sistema para desmontando
                 printf("Desmontando o cartão SD...\n");
-                cartao_montado = false; // Atualiza o estado do cartão SD para desmontado
+                run_unmount();
                 // chama a função de desmontagem do cartão SD
             }
             estado_sistema = PRONTO; // Atualiza o estado do sistema para pronto após montar/desmontar

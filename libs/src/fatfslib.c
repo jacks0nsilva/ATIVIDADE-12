@@ -8,6 +8,7 @@
 
 #include "hardware/rtc.h"
 #include "pico/stdlib.h"
+#include "config.h"
 
 #include "ff.h"
 #include "diskio.h"
@@ -135,6 +136,7 @@ FATFS *sd_get_fs_by_name(const char *name)
     }
     sd_card_t *pSD = sd_get_by_name(arg1);
     myASSERT(pSD);
+    cartao_montado = true; // Atualiza o estado do cartão SD para montado
     pSD->mounted = true;
     printf("Processo de montagem do SD ( %s ) concluído\n", pSD->pcName);
 }
@@ -158,6 +160,7 @@ FATFS *sd_get_fs_by_name(const char *name)
     sd_card_t *pSD = sd_get_by_name(arg1);
     myASSERT(pSD);
     pSD->mounted = false;
+    cartao_montado = false; // Atualiza o estado do cartão SD para desmontado
     pSD->m_Status |= STA_NOINIT; // in case medium is removed
     printf("SD ( %s ) desmontado\n", pSD->pcName);
 }
