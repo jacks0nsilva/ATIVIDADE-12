@@ -46,6 +46,11 @@ void vTaskCapturarDados(void *params){
                 quantidade_coletada++; // Incrementa a quantidade de amostras coletadas
                 if(parar_captura) break; // Verifica se a captura deve ser interrompida
         }
+        if(cartao_montado){
+            xTaskNotifyGive(xHandleGravar);
+        } else {
+            printf("Cartão SD não montado. Não é possível gravar dados.\n");
+        }
 
         /*
         printf("Amostras capturadas:\n");
@@ -57,7 +62,7 @@ void vTaskCapturarDados(void *params){
                    data_buffer[i].gyro[0], data_buffer[i].gyro[1], data_buffer[i].gyro[2],
                    data_buffer[i].temp);
         }*/
-        xTaskNotifyGive(xHandleGravar); // Notifica a tarefa de gravação de dados
+         // Notifica a tarefa de gravação de dados
         parar_captura = false; // Reseta a variável de controle de captura
         vTaskDelay(pdMS_TO_TICKS(2000)); // Delay for 2000 ms before the next capture
     }

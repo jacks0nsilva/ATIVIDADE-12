@@ -40,4 +40,5 @@ typedef enum
 extern ESTADO_SISTEMA estado_sistema; // Variável global para armazenar o estado do sistema
 extern volatile bool parar_captura; // Variável global para controlar a captura de dados
 extern int quantidade_coletada; // Variável global para controlar a quantidade de dados coletados
+extern volatile bool cartao_montado; // Variável global para controlar o estado do cartão SD
 #endif // CONFIG_H

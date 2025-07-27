@@ -7,6 +7,7 @@
 
 volatile uint32_t last_time = 0; // Variável global para armazenar o último tempo
 volatile bool parar_captura = false; // Variável global para controlar a captura de dados
+volatile bool cartao_montado = false; // Variável global para controlar o estado do cartão SD
 void gpio_irq_handler(uint gpio, uint32_t events); // Declaração da função de interrupção
 ESTADO_SISTEMA estado_sistema = PRONTO; // Inicializa o estado do sistema
 int quantidade_coletada = 0; // Variável global para controlar a quantidade de dados coletados

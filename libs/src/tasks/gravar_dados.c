@@ -15,11 +15,8 @@ void vTaskGravarDados(void *params) {
             vTaskDelay(pdMS_TO_TICKS(5000)); // Simula um delay de 5 segundos para a gravação
             estado_sistema = PRONTO; // Atualiza o estado do sistema para pronto após gravar
             xSemaphoreGive(xMutexCartaoSD); // Libera o semáforo após gravar os dados
-        } else {
-            printf("Erro ao obter o semáforo para acesso ao cartão SD.\n");
+            // Exemplo de uso da variável "quantidade_coletada"
+            printf("Gravando %d amostras no cartão SD...\n", quantidade_coletada);
         }
-
-        // Exemplo de uso da variável "quantidade_coletada"
-        printf("Gravando %d amostras no cartão SD...\n", quantidade_coletada);
     }
 }

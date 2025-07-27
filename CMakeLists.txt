@@ -28,6 +28,7 @@ pico_sdk_init()
 
 include_directories(${CMAKE_SOURCE_DIR}/libs/include) # Adiciona o diretório 'libs/include' à lista global de diretórios de headers 
 
+add_subdirectory(libs/FatFs_SPI) # Adiciona a biblioteca FatFs_SPI
 
 add_executable(${PROJECT_NAME}  
         ATIVIDADE-12.c # Código principal em C
@@ -36,6 +37,8 @@ add_executable(${PROJECT_NAME}
         libs/src/tasks/montar_desmontar.c # Implementação da tarefa de montar/desmontar o cartão SD
         libs/src/tasks/gravar_dados.c # Implementação da tarefa de gravar dados no cartão SD
         libs/src/tasks/capturar_dados.c # Header da tarefa de captura de dados
+        hw_config.c
+        libs/src/fatfslib.c # Implementação da biblioteca FatFs
         )
 
 target_include_directories(${PROJECT_NAME} PRIVATE ${CMAKE_SOURCE_DIR})  # Adiciona o diretório raiz como include privado apenas para o target atual
@@ -44,7 +47,9 @@ target_link_libraries(${PROJECT_NAME}
     pico_stdlib
     FreeRTOS-Kernel
     FreeRTOS-Kernel-Heap4
+    FatFs_SPI
     hardware_i2c
+    hardware_clocks
 )
 
 pico_enable_stdio_usb(${PROJECT_NAME} 1)
