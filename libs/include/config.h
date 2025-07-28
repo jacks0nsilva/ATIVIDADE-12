@@ -17,6 +17,9 @@
 // Definicão dos periféricos
 #define BOTAO_A 5
 #define BOTAO_B 6
+#define LED_VERDE 11
+#define LED_AZUL 12
+#define LED_VERMELHO 13
 
 typedef struct
 {

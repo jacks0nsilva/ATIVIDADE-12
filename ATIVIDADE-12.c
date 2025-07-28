@@ -48,6 +48,7 @@ int main()
     xMutexCartaoSD = xSemaphoreCreateMutex(); // Criação do semáforo para acesso ao cartão SD
 
     // Criação das tarefas 
+    xTaskCreate(vTaskLeds, "Controlar LEDs", configMINIMAL_STACK_SIZE, NULL, 1, NULL); // Tarefa para controlar os LEDs
     xTaskCreate(vEstadoAtual, "Estado Atual", configMINIMAL_STACK_SIZE, NULL, 1, NULL); // Tarefa para exibir o estado atual do sistema
     xTaskCreate(vTaskCapturarDados, "Capturar Dados", configMINIMAL_STACK_SIZE, NULL, 1, &xHandleCaptura);
     xTaskCreate(vTaskMontarDesmontarSD, "Montar/Desmontar SD", configMINIMAL_STACK_SIZE, NULL, 1, &xHandleMontarDesmontar);
