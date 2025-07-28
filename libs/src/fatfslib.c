@@ -132,6 +132,7 @@ FATFS *sd_get_fs_by_name(const char *name)
     if (FR_OK != fr)
     {
         printf("f_mount error: %s (%d)\n", FRESULT_str(fr), fr);
+        estado_sistema = ERRO; // Atualiza o estado do sistema para erro
         return;
     }
     sd_card_t *pSD = sd_get_by_name(arg1);
@@ -154,6 +155,7 @@ FATFS *sd_get_fs_by_name(const char *name)
     FRESULT fr = f_unmount(arg1);
     if (FR_OK != fr)
     {
+        estado_sistema = ERRO; // Atualiza o estado do sistema para erro
         printf("f_unmount error: %s (%d)\n", FRESULT_str(fr), fr);
         return;
     }

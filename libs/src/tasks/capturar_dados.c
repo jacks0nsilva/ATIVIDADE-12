@@ -11,9 +11,6 @@
 
 void vTaskCapturarDados(void *params){
 
-     
-    
-
     i2c_init(I2C_PORT_MPU6050, 400 * 1000); // Inicializa o I2C a 400kHz
     gpio_set_function(SDA_PIN_MPU6050, GPIO_FUNC_I2C);
     gpio_set_function(SCL_PIN_MPU6050, GPIO_FUNC_I2C);
@@ -49,21 +46,13 @@ void vTaskCapturarDados(void *params){
         if(cartao_montado){
             xTaskNotifyGive(xHandleGravar);
         } else {
+            estado_sistema = ERRO; // Atualiza o estado do sistema para erro
             printf("Cartão SD não montado. Não é possível gravar dados.\n");
+            vTaskDelay(pdMS_TO_TICKS(1500)); // Delay de 1.5 segundos para exebir a mensagem de erro
+            estado_sistema = PRONTO; // Atualiza o estado do sistema para pronto
         }
 
-        /*
-        printf("Amostras capturadas:\n");
-        for (int i = 0; i < quantidade_coletada; i++)
-        {
-            printf("Amostra %d: Aceleracao: X=%d, Y=%d, Z=%d | Giroscopio: X=%d, Y=%d, Z=%d | Temperatura: %d\n",
-                   data_buffer[i].numero_amostra,
-                   data_buffer[i].aceleracao[0], data_buffer[i].aceleracao[1], data_buffer[i].aceleracao[2],
-                   data_buffer[i].gyro[0], data_buffer[i].gyro[1], data_buffer[i].gyro[2],
-                   data_buffer[i].temp);
-        }*/
-         // Notifica a tarefa de gravação de dados
         parar_captura = false; // Reseta a variável de controle de captura
-        vTaskDelay(pdMS_TO_TICKS(2000)); // Delay for 2000 ms before the next capture
+        vTaskDelay(pdMS_TO_TICKS(1000)); // Delay  de 1 segundo antes de iniciar uma nova captura
     }
 }
