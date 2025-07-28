@@ -22,28 +22,28 @@ gyro_x = dados[:, 4]
 gyro_y = dados[:, 5]
 gyro_z = dados[:, 6]
 
+# --- Criação de subplots: 2 linhas, 1 coluna ---
+fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(12, 8), sharex=True)
+
 # --- Gráfico de Aceleração ---
-plt.figure(figsize=(10, 5))
-plt.plot(tempo, acel_x, label='Aceleração X')
-plt.plot(tempo, acel_y, label='Aceleração Y')
-plt.plot(tempo, acel_z, label='Aceleração Z')
-plt.title('Aceleração vs Tempo')
-plt.xlabel('Tempo (s)')
-plt.ylabel('Aceleração (raw)')
-plt.legend()
-plt.grid(True)
-plt.tight_layout()
-plt.show()
+ax1.plot(tempo, acel_x, label='Aceleração X')
+ax1.plot(tempo, acel_y, label='Aceleração Y')
+ax1.plot(tempo, acel_z, label='Aceleração Z')
+ax1.set_title('Aceleração vs Tempo')
+ax1.set_ylabel('Aceleração (raw)')
+ax1.legend()
+ax1.grid(True)
 
 # --- Gráfico de Giroscópio ---
-plt.figure(figsize=(10, 5))
-plt.plot(tempo, gyro_x, label='Giroscópio X')
-plt.plot(tempo, gyro_y, label='Giroscópio Y')
-plt.plot(tempo, gyro_z, label='Giroscópio Z')
-plt.title('Giroscópio vs Tempo')
-plt.xlabel('Tempo (s)')
-plt.ylabel('Giroscópio (raw)')
-plt.legend()
-plt.grid(True)
+ax2.plot(tempo, gyro_x, label='Giroscópio X')
+ax2.plot(tempo, gyro_y, label='Giroscópio Y')
+ax2.plot(tempo, gyro_z, label='Giroscópio Z')
+ax2.set_title('Giroscópio vs Tempo')
+ax2.set_xlabel('Tempo (s)')
+ax2.set_ylabel('Giroscópio (raw)')
+ax2.legend()
+ax2.grid(True)
+
+# --- Layout e exibição ---
 plt.tight_layout()
 plt.show()
