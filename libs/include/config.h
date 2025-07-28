@@ -25,6 +25,7 @@
 #define LED_VERDE 11
 #define LED_AZUL 12
 #define LED_VERMELHO 13
+#define BUZZER_B 10
 
 typedef struct
 {

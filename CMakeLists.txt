@@ -42,6 +42,7 @@ add_executable(${PROJECT_NAME}
         libs/src/tasks/leds.c # Implementação da tarefa de controle dos LEDs
         libs/src/tasks/display.c # Implementação da tarefa de exibição no display
         libs/src/ssd1306.c # Implementação da biblioteca do SSD1306
+        libs/src/tasks/buzzer.c # Implementação da tarefa de controle do buzzer
         )
 
 target_include_directories(${PROJECT_NAME} PRIVATE ${CMAKE_SOURCE_DIR})  # Adiciona o diretório raiz como include privado apenas para o target atual
@@ -53,6 +54,7 @@ target_link_libraries(${PROJECT_NAME}
     FatFs_SPI
     hardware_i2c
     hardware_clocks
+    hardware_pwm
 )
 
 pico_enable_stdio_usb(${PROJECT_NAME} 1)

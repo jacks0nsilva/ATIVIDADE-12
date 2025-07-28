@@ -11,6 +11,7 @@ void vTaskGravarDados(void *params); // Declaração da tarefa para gravar dados
 void vTaskMontarDesmontarSD(void *params); // Declaração da tarefa para montar/desmontar o cartão SD
 void vTaskLeds(void *params); // Declaração da tarefa para controlar os LEDs
 void vTaskDisplay(void *params); // Declaração da tarefa para exibir informações no display
+void vTaskBuzzer(void *params); // Declaração da tarefa para controlar o buzzer
 
 extern SemaphoreHandle_t xMutexCartaoSD; // Semáforo para acesso ao cartão SD
 extern TaskHandle_t xHandleGravar; // Handle para a tarefa de gravar dados no cartão SD
