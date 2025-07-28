@@ -39,16 +39,16 @@ void vTaskCapturarDados(void *params){
                 data_buffer[i].gyro[1] = gyro[1];
                 data_buffer[i].gyro[2] = gyro[2];
                 data_buffer[i].temp = temp;
-                vTaskDelay(pdMS_TO_TICKS(INTERVALO_AMOSTRAGEM_MS)); // Delay for INTERVALO_AMOSTRAGEM_MS milliseconds
+                vTaskDelay(pdMS_TO_TICKS(INTERVALO_AMOSTRAGEM_MS)); // Delay para criar um intervalo entre as amostras
                 quantidade_coletada++; // Incrementa a quantidade de amostras coletadas
                 if(parar_captura) break; // Verifica se a captura deve ser interrompida
         }
-        if(cartao_montado){
+        if(cartao_montado){ // Após a captura, verifica se o cartão SD está montado se estiver, notifica a tarefa de gravação
             xTaskNotifyGive(xHandleGravar);
-        } else {
+        } else { // Se o cartão SD não estiver montado, atualiza o estado do sistema para erro
             estado_sistema = ERRO; // Atualiza o estado do sistema para erro
             printf("Cartão SD não montado. Não é possível gravar dados.\n");
-            vTaskDelay(pdMS_TO_TICKS(1500)); // Delay de 1.5 segundos para exebir a mensagem de erro
+            vTaskDelay(pdMS_TO_TICKS(1500)); // Delay de 1.5 segundos para exibir a mensagem de erro
             estado_sistema = PRONTO; // Atualiza o estado do sistema para pronto
         }
 

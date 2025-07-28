@@ -5,15 +5,15 @@
 #include "tasks.h"
 #include "config.h"
 
-volatile uint32_t last_time = 0; // Variável global para armazenar o último tempo
+volatile uint32_t last_time = 0; // Variável global para armazenar o último tempo do botão pressionado
 volatile bool parar_captura = false; // Variável global para controlar a captura de dados
 volatile bool cartao_montado = false; // Variável global para controlar o estado do cartão SD
-void gpio_irq_handler(uint gpio, uint32_t events); // Declaração da função de interrupção
 ESTADO_SISTEMA estado_sistema = PRONTO; // Inicializa o estado do sistema
 int quantidade_coletada = 0; // Variável global para controlar a quantidade de dados coletados
 
+void gpio_irq_handler(uint gpio, uint32_t events); // Declaração da função de interrupção
 
-imu_data_t data_buffer[QUANTIDADE_AMOSTRAS];
+imu_data_t data_buffer[QUANTIDADE_AMOSTRAS]; // Buffer para armazenar os dados coletados
 TaskHandle_t xHandleCaptura = NULL; // Handle para a tarefa de captura de dados
 TaskHandle_t xHandleGravar = NULL; // Handle para a tarefa de gravar dados no cartão SD
 TaskHandle_t xHandleMontarDesmontar = NULL; // Handle para a tarefa de montar/desmontar o cartão SD 
@@ -21,6 +21,7 @@ SemaphoreHandle_t xMutexCartaoSD; // Semáforo para acesso ao cartão SD
 
 void vEstadoAtual(){
     
+    // Afins de debug, exibe o estado atual do sistema a cada segundo
     while (true)
     {
         printf("Estado atual do sistema: %d\n", estado_sistema);
@@ -61,6 +62,7 @@ int main()
     panic_unsupported(); 
 }
 
+// Função de interrupção para lidar com os botões A e B
 void gpio_irq_handler(uint gpio, uint32_t events) {
     uint32_t current_time = to_us_since_boot(get_absolute_time());
 
@@ -69,13 +71,13 @@ void gpio_irq_handler(uint gpio, uint32_t events) {
         BaseType_t xHigherPriorityTaskWoken = pdFALSE;
 
         if(gpio == BOTAO_A) {
-            if (estado_sistema == PRONTO) {
+            if (estado_sistema == PRONTO) { // Após o botão ser pressionado e o sistema estar pronto, inicia a captura
                 vTaskNotifyGiveFromISR(xHandleCaptura, &xHigherPriorityTaskWoken);
-            } else if(estado_sistema == CAPTURANDO) {
+            } else if(estado_sistema == CAPTURANDO) { // Se o sistema já está capturando, para a captura
                 parar_captura = true;
             }
             
-        } else if(gpio == BOTAO_B) {
+        } else if(gpio == BOTAO_B) { // Se o botão B for pressionado, monta ou desmonta o cartão SD
                 vTaskNotifyGiveFromISR(xHandleMontarDesmontar, &xHigherPriorityTaskWoken);
         }
     }

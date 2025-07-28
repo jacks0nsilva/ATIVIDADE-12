@@ -10,7 +10,7 @@ void vTaskMontarDesmontarSD(void *params) {
         // Espera até que a tarefa de captura de dados tenha coletado dados
         ulTaskNotifyTake(pdTRUE, portMAX_DELAY);
         printf("Iniciando montagem/desmontagem do cartão SD...\n");
-        if(xSemaphoreTake(xMutexCartaoSD, portMAX_DELAY) == pdTRUE){
+        if(xSemaphoreTake(xMutexCartaoSD, portMAX_DELAY) == pdTRUE){ // Tenta obter o semáforo para acesso ao cartão SD
             printf("Montando/desmontando o cartão SD...\n");
             if(!cartao_montado) {
                 estado_sistema = MONTANDO_SD; // Atualiza o estado do sistema para montando
