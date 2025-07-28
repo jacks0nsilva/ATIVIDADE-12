@@ -28,6 +28,8 @@ void vTaskDisplay(void *params){
             ssd1306_draw_string(&ssd, "Sistema Pronto", 0, 0);
             ssd1306_draw_string(&ssd, "SD:", 0, 12);
             ssd1306_draw_string(&ssd, cartao_montado ? "MONTADO" : "DESMONTADO", 33, 12);
+            ssd1306_draw_string(&ssd, "A:CAPTURA/GRAVA", 0, 30);
+            ssd1306_draw_string(&ssd, "B:MONTAR/DESMONTAR", 0, 42);
             ssd1306_send_data(&ssd);
             break;
         case CAPTURANDO:
@@ -37,6 +39,8 @@ void vTaskDisplay(void *params){
             char qnt_str[30];
             snprintf(qnt_str, sizeof(qnt_str), "%d", quantidade_coletada);
             ssd1306_draw_string(&ssd, qnt_str, 81, 12);
+            ssd1306_draw_string(&ssd, "Pressione A", 0, 30);
+            ssd1306_draw_string(&ssd, "para parar", 0, 42);
             ssd1306_send_data(&ssd);
             break;
         case GRAVANDO_SD:
