@@ -30,9 +30,8 @@
 typedef struct
 {
     int16_t numero_amostra;
-    int16_t aceleracao[3];
-    int16_t gyro[3];
-    int16_t temp;
+    float aceleracao[3];
+    float gyro[3];
 } imu_data_t;
 
 

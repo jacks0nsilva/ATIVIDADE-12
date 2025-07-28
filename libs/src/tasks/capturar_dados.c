@@ -17,6 +17,9 @@ void vTaskCapturarDados(void *params){
     gpio_pull_up(SDA_PIN_MPU6050);
     gpio_pull_up(SCL_PIN_MPU6050);
 
+    float acelerometro_fator_g = 16384.0; // Fator de conversão do acelerômetro
+    float giro_fator_dps = 131.0; // Fator de conversão do giroscópio
+
     // Declara os pinos como I2C na Binary Info para depuração
     bi_decl(bi_2pins_with_func(SDA_PIN_MPU6050, SCL_PIN_MPU6050, GPIO_FUNC_I2C));
     mpu6050_reset();
@@ -32,13 +35,12 @@ void vTaskCapturarDados(void *params){
         {
                 mpu6050_read_raw(aceleracao, gyro, &temp);
                 data_buffer[i].numero_amostra = i+1;
-                data_buffer[i].aceleracao[0] = aceleracao[0];
-                data_buffer[i].aceleracao[1] = aceleracao[1];
-                data_buffer[i].aceleracao[2] = aceleracao[2];
-                data_buffer[i].gyro[0] = gyro[0];
-                data_buffer[i].gyro[1] = gyro[1];
-                data_buffer[i].gyro[2] = gyro[2];
-                data_buffer[i].temp = temp;
+                data_buffer[i].aceleracao[0] = aceleracao[0] / acelerometro_fator_g; // Converte os valores do acelerômetro
+                data_buffer[i].aceleracao[1] = aceleracao[1] / acelerometro_fator_g;
+                data_buffer[i].aceleracao[2] = aceleracao[2] / acelerometro_fator_g;
+                data_buffer[i].gyro[0] = gyro[0] / giro_fator_dps;
+                data_buffer[i].gyro[1] = gyro[1] / giro_fator_dps;
+                data_buffer[i].gyro[2] = gyro[2] / giro_fator_dps;
                 vTaskDelay(pdMS_TO_TICKS(INTERVALO_AMOSTRAGEM_MS)); // Delay para criar um intervalo entre as amostras
                 quantidade_coletada++; // Incrementa a quantidade de amostras coletadas
                 if(parar_captura) break; // Verifica se a captura deve ser interrompida
@@ -47,7 +49,6 @@ void vTaskCapturarDados(void *params){
             xTaskNotifyGive(xHandleGravar);
         } else { // Se o cartão SD não estiver montado, atualiza o estado do sistema para erro
             estado_sistema = ERRO; // Atualiza o estado do sistema para erro
-            printf("Cartão SD não montado. Não é possível gravar dados.\n");
             vTaskDelay(pdMS_TO_TICKS(1500)); // Delay de 1.5 segundos para exibir a mensagem de erro
             estado_sistema = PRONTO; // Atualiza o estado do sistema para pronto
         }

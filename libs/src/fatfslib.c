@@ -335,7 +335,7 @@ void write_file()
     }
 
     // Escreve o cabeçalho
-    const char *cabecalho = "Amostra,Acc_X,Acc_Y,Acc_Z,Gyro_X,Gyro_Y,Gyro_Z,Temp\n";
+    const char *cabecalho = "Amostra,Acc_X,Acc_Y,Acc_Z,Gyro_X,Gyro_Y,Gyro_Z\n";
     res = f_write(&file, cabecalho, strlen(cabecalho), &bytes_written);
     if (res != FR_OK || bytes_written != strlen(cabecalho))
     {
@@ -349,12 +349,12 @@ void write_file()
     for (int i = 0; i < quantidade_coletada; i++)
     {
         imu_data_t *dado = &data_buffer[i];
+
         snprintf(linha, sizeof(linha),
-                 "%d,%d,%d,%d,%d,%d,%d,%d\n",
+                 "%d,%.3f,%.3f,%.3f,%.3f,%.3f,%.3f\n",
                  dado->numero_amostra,
                  dado->aceleracao[0], dado->aceleracao[1], dado->aceleracao[2],
-                 dado->gyro[0], dado->gyro[1], dado->gyro[2],
-                 dado->temp);
+                 dado->gyro[0], dado->gyro[1], dado->gyro[2]);
 
         res = f_write(&file, linha, strlen(linha), &bytes_written);
         if (res != FR_OK || bytes_written != strlen(linha))

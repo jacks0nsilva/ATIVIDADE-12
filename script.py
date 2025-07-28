@@ -30,7 +30,7 @@ ax1.plot(tempo, acel_x, label='Aceleração X')
 ax1.plot(tempo, acel_y, label='Aceleração Y')
 ax1.plot(tempo, acel_z, label='Aceleração Z')
 ax1.set_title('Aceleração vs Tempo')
-ax1.set_ylabel('Aceleração (raw)')
+ax1.set_ylabel('Aceleração (g)')  # UNIDADE CONVERTIDA
 ax1.legend()
 ax1.grid(True)
 
@@ -40,9 +40,10 @@ ax2.plot(tempo, gyro_y, label='Giroscópio Y')
 ax2.plot(tempo, gyro_z, label='Giroscópio Z')
 ax2.set_title('Giroscópio vs Tempo')
 ax2.set_xlabel('Tempo (s)')
-ax2.set_ylabel('Giroscópio (raw)')
+ax2.set_ylabel('Velocidade Angular (°/s)')  # UNIDADE CONVERTIDA
 ax2.legend()
 ax2.grid(True)
+
 
 # --- Layout e exibição ---
 plt.tight_layout()
