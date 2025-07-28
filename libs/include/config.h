@@ -12,7 +12,12 @@
 #define QUANTIDADE_AMOSTRAS 20 // Quantidade de amostras a serem capturadas
 #define INTERVALO_AMOSTRAGEM_MS 500 // Intervalo de captura de dados em milissegundos
 
-//extern volatile uint32_t last_time;
+
+// Configurações do Display SSD1306
+#define I2C_PORT_DISPLAY i2c1 // Identificador da porta I2C usada para o display
+#define I2C_SDA_DISPLAY 14
+#define I2C_SCL_DISPLAY 15
+#define ADDRESS_DISPLAY 0x3C // Endereço I2C do display SSD1306
 
 // Definicão dos periféricos
 #define BOTAO_A 5
@@ -38,6 +43,7 @@ typedef enum
     MONTANDO_SD, // Sistema montando o cartão SD
     DESMONTANDO_SD, // Sistema desmontando o cartão SD
     GRAVANDO_SD, // Sistema gravando dados no cartão SD
+    FEEDBACK // Feedback após gravação
 } ESTADO_SISTEMA;
 
 extern imu_data_t data_buffer[QUANTIDADE_AMOSTRAS]; // Buffer para armazenar os dados capturados

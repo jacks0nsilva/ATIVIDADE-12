@@ -40,6 +40,8 @@ add_executable(${PROJECT_NAME}
         hw_config.c # Configuração do leitor de cartão SD
         libs/src/fatfslib.c # Implementação da biblioteca FatFs
         libs/src/tasks/leds.c # Implementação da tarefa de controle dos LEDs
+        libs/src/tasks/display.c # Implementação da tarefa de exibição no display
+        libs/src/ssd1306.c # Implementação da biblioteca do SSD1306
         )
 
 target_include_directories(${PROJECT_NAME} PRIVATE ${CMAKE_SOURCE_DIR})  # Adiciona o diretório raiz como include privado apenas para o target atual

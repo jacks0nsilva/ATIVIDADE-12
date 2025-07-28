@@ -48,6 +48,12 @@ void vTaskLeds(void *params) {
             gpio_put(LED_AZUL, true);
             gpio_put(LED_VERMELHO, false);
             break;
+        case FEEDBACK:
+            // BRANCO - Feedback após gravação
+            gpio_put(LED_VERDE, true);
+            gpio_put(LED_AZUL, true);
+            gpio_put(LED_VERMELHO, true);
+            break;
         default:
             // Desliga todos os LEDs se o estado não for reconhecido
             gpio_put(LED_VERDE, false);

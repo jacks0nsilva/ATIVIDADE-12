@@ -53,6 +53,7 @@ int main()
     xTaskCreate(vTaskCapturarDados, "Capturar Dados", configMINIMAL_STACK_SIZE, NULL, 1, &xHandleCaptura);
     xTaskCreate(vTaskMontarDesmontarSD, "Montar/Desmontar SD", configMINIMAL_STACK_SIZE, NULL, 1, &xHandleMontarDesmontar);
     xTaskCreate(vTaskGravarDados, "Gravar Dados", 4096, NULL, 1, &xHandleGravar);
+    xTaskCreate(vTaskDisplay, "Display", configMINIMAL_STACK_SIZE, NULL, 1, NULL); // Tarefa para exibir informações no display
     // Início do scheduler
     vTaskStartScheduler();
     panic_unsupported(); 

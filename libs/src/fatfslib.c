@@ -365,5 +365,6 @@ void write_file()
     }
 
     f_close(&file);
+    estado_sistema = FEEDBACK;
     printf("[INFO] Arquivo CSV salvo com sucesso: %s\n", filename);
 }
